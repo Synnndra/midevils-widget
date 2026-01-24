@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MidEvils Training</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d1810 50%, #1a0a0a 100%);
+            font-family: 'MedievalSharp', cursive;
+            overflow: hidden;
+        }
+
+        .widget {
+            position: relative;
+            width: 320px;
+            padding: 30px;
+            background: linear-gradient(180deg, #2a1a10 0%, #1a0f08 100%);
+            border: 4px solid #8b6914;
+            border-radius: 12px;
+            box-shadow:
+                0 0 20px rgba(139, 105, 20, 0.4),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .widget::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #8b6914, #d4a84b, #8b6914);
+            border-radius: 14px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .corner {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #d4a84b;
+        }
+
+        .corner-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+        .corner-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+        .corner-br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255, 150, 50, 0.5));
+        }
+
+        .title {
+            color: #d4a84b;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .count-container {
+            position: relative;
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        .count {
+            font-size: 72px;
+            color: #ff9933;
+            text-shadow:
+                0 0 10px rgba(255, 153, 51, 0.8),
+                0 0 20px rgba(255, 153, 51, 0.4),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .count.loading {
+            opacity: 0.5;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        .label {
+            color: #a88932;
+            font-size: 16px;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: #7a6428;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #3d2a15;
+        }
+
+        .status-text {
+            color: #5a4420;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4a9c4a;
+            border-radius: 50%;
+            margin-right: 6px;
+            box-shadow: 0 0 6px #4a9c4a;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .torch {
+            position: absolute;
+            width: 20px;
+            height: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .torch-left { left: -30px; }
+        .torch-right { right: -30px; }
+
+        .flame {
+            width: 16px;
+            height: 24px;
+            background: linear-gradient(to top, #ff6600, #ffcc00, #fff);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            margin: 0 auto;
+            animation: flicker 0.5s infinite alternate;
+            box-shadow: 0 0 20px #ff6600, 0 0 40px #ff9900;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); opacity: 1; }
+            100% { transform: scale(1.05) rotate(2deg); opacity: 0.9; }
+        }
+
+        .handle {
+            width: 6px;
+            height: 20px;
+            background: linear-gradient(90deg, #4a3520, #6b4c30, #4a3520);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="torch torch-left">
+        <div class="flame"></div>
+        <div class="handle"></div>
+    </div>
+
+    <div class="widget">
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
+
+        <div class="icon">⚔️</div>
+        <div class="title">MidEvils</div>
+
+        <div class="count-container">
+            <div class="count" id="count">---</div>
+            <div class="label">Training</div>
+            <div class="subtitle">Warriors in the Gym</div>
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            <span class="status-text" id="status">Connecting...</span>
+        </div>
+    </div>
+
+    <div class="torch torch-right">
+        <div class="flame"></div>
+        <div class="handle"></div>
+    </div>
+
+    <script>
+        const COLLECTION = 'w44WvLKRdLGye2ghhDJBxcmnWpBo31A1tCBko2G6DgW';
+
+        async function getStakedCount() {
+            const countEl = document.getElementById('count');
+            const statusEl = document.getElementById('status');
+
+            countEl.classList.add('loading');
+            statusEl.textContent = 'Fetching...';
+
+            let total = 0;
+            let page = 1;
+
+            try {
+                while (true) {
+                    const response = await fetch('/api/helius', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            jsonrpc: '2.0',
+                            id: 1,
+                            method: 'getAssetsByGroup',
+                            params: {
+                                groupKey: 'collection',
+                                groupValue: COLLECTION,
+                                page: page,
+                                limit: 1000
+                            }
+                        })
+                    });
+
+                    const data = await response.json();
+                    const items = data.result?.items || [];
+
+                    if (items.length === 0) break;
+
+                    total += items.filter(i =>
+                        i.ownership?.frozen &&
+                        !i.ownership?.delegate
+                    ).length;
+
+                    if (items.length < 1000) break;
+                    page++;
+                }
+
+                countEl.textContent = total;
+                countEl.classList.remove('loading');
+                statusEl.textContent = `Updated ${new Date().toLocaleTimeString()}`;
+
+            } catch (error) {
+                console.error('Error:', error);
+                statusEl.textContent = 'Error fetching data';
+                countEl.classList.remove('loading');
+            }
+        }
+
+        // Initial fetch
+        getStakedCount();
+
+        // Refresh every 60 seconds
+        setInterval(getStakedCount, 60000);
+    </script>
+</body>
+</html>
