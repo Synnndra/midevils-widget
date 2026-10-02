@@ -213,6 +213,7 @@
 
     <script>
         const COLLECTION = 'w44WvLKRdLGye2ghhDJBxcmnWpBo31A1tCBko2G6DgW';
+        const STAKE_AUTHORITY = '5siLSRjgWHmvrdFLQ8oVVDdfhDkEqoCDYWkp997bHTM5';
 
         async function getStakedCount() {
             const countEl = document.getElementById('count');
@@ -249,7 +250,7 @@
 
                     total += items.filter(i =>
                         i.ownership?.frozen &&
-                        !i.ownership?.delegate
+                        i.ownership?.delegate === STAKE_AUTHORITY
                     ).length;
 
                     if (items.length < 1000) break;
